@@ -4,9 +4,9 @@ use \App\Services\Validators\Exceptions\NotExistValidatorRuleException;
 
 abstract class ContextValidator
 {
-	protected $input;
-	protected static $rules = array();
-	protected $errors;
+    protected $input;
+    protected static $rules = array();
+    protected $errors;
     protected $event;
     protected $currentId;
     
@@ -74,8 +74,9 @@ abstract class ContextValidator
                 if($v->passes()) {
                     return true;
                 }
-                $this->errors = $v->messages();
-                return false;
+                
+        $this->errors = $v->messages();
+       	return false;
     }
 
 

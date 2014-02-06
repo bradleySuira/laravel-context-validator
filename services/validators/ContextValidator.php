@@ -27,9 +27,9 @@ abstract class ContextValidator
     }
 
     /**
-     * Set the input to validate
+     * Set the event or rule name like create, update or edit
      * 
-     * @param array $input
+     * @param string $event
      * @return App\Services\Validators\ContextValidator *on the extended class inscance
      */
     public function on($event)

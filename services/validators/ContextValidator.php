@@ -9,7 +9,7 @@ abstract class ContextValidator
     protected $errors;
     protected $event;
     protected $currentId;
-    
+
     public function __construct($input = null)
     {
         $this->input = $input ?: \Input::all();
@@ -17,9 +17,9 @@ abstract class ContextValidator
 
     /**
      * set the input to validate
-     * 
+     *
      * @param array $input
-     * @return App\Services\Validators\ContextValidator *on the extended class inscance
+     * @return App\Services\Validators\ContextValidator *on the extended class instance
      */
     public static function make($input = null)
     {
@@ -27,10 +27,10 @@ abstract class ContextValidator
     }
 
     /**
-     * Set the event or rule name like create, update or edit
-     * 
-     * @param string $event
-     * @return App\Services\Validators\ContextValidator *on the extended class inscance
+     * Set the input to validate
+     *
+     * @param array $input
+     * @return App\Services\Validators\ContextValidator *on the extended class instance
      */
     public function on($event)
     {
@@ -43,10 +43,25 @@ abstract class ContextValidator
     }
 
     /**
+     * Add the rules to use
+     *
+     * @param array $rules
+     * @return App\Services\Validators\ContextValidator *on the extended class instance
+     */
+    public function withRules(array $rules = array(), $event = null)
+    {
+        if($event != null) {
+            static::$rules[$event] = $rules;
+        }else {
+            static::$rules[] = $rules;
+        }
+        return $this;
+    }
+    /**
      * Set the current Id for for replace in validation rul in string :current
-     * 
+     *
      * @param integer $id
-     * @return App\Services\Validators\ContextValidator *on the extended class inscance
+     * @return App\Services\Validators\ContextValidator *on the extended class instance
      */
     public function setCurrent($id)
     {
@@ -56,7 +71,7 @@ abstract class ContextValidator
 
     /**
      * Process the validation
-     * 
+     *
      * @return bool
      */
     public function passes()
@@ -66,7 +81,7 @@ abstract class ContextValidator
         //first you must set the currentId
         if($this->currentId > 0) {
            foreach (static::$rules[$this->event] as $key => $value) {
-              static::$rules[$this->event][$key] = str_replace(':current', $this->currentId, static::$rules[$this->event][$key]); 
+              static::$rules[$this->event][$key] = str_replace(':current', $this->currentId, static::$rules[$this->event][$key]);
            }
         }
 
@@ -82,7 +97,7 @@ abstract class ContextValidator
 
     /**
      * Get errors if exist
-     * 
+     *
      * @return Illuminate\Support\MessageBag
      */
     public function errors()
@@ -90,4 +105,3 @@ abstract class ContextValidator
     	return $this->errors;
     }
 }
-
